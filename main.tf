@@ -158,7 +158,12 @@ resource "null_resource" "configure_api_permissions" {
     command = "az ad app permission add --id ${azuread_application.power_bi_app.application_id} --api 00000009-0000-0000-c000-000000000000 --api-permissions 1bfefb4e-e0b5-418b-a88f-73c46d2cc8e9=Role"
   }
 
-/*
+ provisioner "local-exec" {
+    command = <<-EOT
+      az role assignment create --assignee ${azuread_service_principal.power_bi_principal.object_id} --role "Contributor" --scope /subscriptions/my_subscription_id
+    EOT
+  }
+  /*
    provisioner "local-exec" {
       command = "az ad app permission admin-consent --id ${azuread_application.power_bi_app.application_id}"
     }
@@ -167,6 +172,5 @@ resource "null_resource" "configure_api_permissions" {
   # Assign admin consent
   require_admin_approval = true
 
-# az role assignment create --assignee <service-principal-object-id> --role "Contributor" --scope /subscriptions/<subscription-id>
 */
 }
