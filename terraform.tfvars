@@ -1,6 +1,6 @@
 # tfvars 
 
-my_subscription_id = "14a730d5-6d65-487d-95e1-da4a9dc97bf9"
+my_subscription_id = "fb88d13c-3b52-442e-b41d-47413e9aca75"
 
 resource_group_name     = "power_bi_rg"
 resource_group_location = "East US"
