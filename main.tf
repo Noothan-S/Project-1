@@ -158,12 +158,13 @@ resource "null_resource" "configure_api_permissions" {
     command = "az ad app permission add --id ${azuread_application.power_bi_app.application_id} --api 00000009-0000-0000-c000-000000000000 --api-permissions 1bfefb4e-e0b5-418b-a88f-73c46d2cc8e9=Role"
   }
 
- provisioner "local-exec" {
-    command = <<-EOT
-      az role assignment create --assignee ${azuread_service_principal.power_bi_principal.object_id} --role "Contributor" --scope /subscriptions/my_subscription_id
-    EOT
-  }
-  /*
+}
+#  provisioner "local-exec" {
+#   command = <<-EOT
+#     az role assignment create --assignee ${azuread_service_principal.power_bi_principal.object_id} --role Contributor --scope /subscriptions/fb88d13c-3b52-442e-b41d-47413e9aca75
+#   EOT
+# }
+/*
    provisioner "local-exec" {
       command = "az ad app permission admin-consent --id ${azuread_application.power_bi_app.application_id}"
     }
@@ -173,4 +174,26 @@ resource "null_resource" "configure_api_permissions" {
   require_admin_approval = true
 
 */
+
+# provisioner "local-exec" {
+#       command = "az ad app permission admin-consent --id ${azuread_application.power_bi_app.application_id}"
+#     }
+# }
+
+
+/*
+
+# Grant admin consent
+resource "null_resource" "admin_consent" {
+  triggers = {
+    enterprise_app_id = azuread_application.example.application_id
+  }
+
+  provisioner "local-exec" {
+    command = <<EOT
+      az rest --method POST --uri https://graph.microsoft.com/v1.0/servicePrincipals/${azuread_service_principal.example.object_id}/grantConsent
+    EOT
+  }
 }
+
+*/
