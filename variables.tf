@@ -1,4 +1,21 @@
 # Variables
+# Local Variables 
+variable "project_name" {
+  type        = string
+  description = "A prefix used for all resources in this project (incl. dashes). Required."
+
+  validation {
+    condition     = length(var.project_name) < 30
+    error_message = "Name must be less than 20 characters."
+  }
+}
+
+variable "suffix" {
+  type        = string
+  description = "Suffix to avoid automation errors on Azure resources that require globally unique names. Defaults to empty string."
+  default     = ""
+}
+
 
 # Variables for Resource Group
 variable "resource_group_name" {

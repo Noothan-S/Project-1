@@ -2,7 +2,10 @@
 
 my_subscription_id = "fb88d13c-3b52-442e-b41d-47413e9aca75"
 
-resource_group_name     = "power_bi_rg"
+project_name = "power-bi"
+
+
+resource_group_name     = "rg"
 resource_group_location = "East US"
 
 random_string_length  = "16"
@@ -13,7 +16,7 @@ owner_username = "noothan@ganganoothangmail.onmicrosoft.com"
 # owner_username = "athul@ganganoothangmail.onmicrosoft.com"
 
 
-azuread_application_display_name = "PowerBI Embeding Salesforce"
+azuread_application_display_name = "Power BI Embeding Salesforce"
 
 azuread_service_principal_app_role_assignment_required = true
 
@@ -33,6 +36,6 @@ azurerm_key_vault_sku_name                    = "standard" # or "premium"
 azurerm_key_vault_access_policy_secret_permissions = ["Get",
 "List", "Set", "Delete", "Recover", "Backup", "Restore", "Purge"]
 
-azurerm_key_vault_secret_power_bi_app_client_id_name     = "power-bi-app-client-id"
-azurerm_key_vault_secret_power_bi_app_client_secret_name = "power-bi-app-client-secret"
+azurerm_key_vault_secret_power_bi_app_client_id_name     = "client-id"
+azurerm_key_vault_secret_power_bi_app_client_secret_name = "client-secret"
 
