@@ -9,8 +9,8 @@ random_string_length  = "16"
 random_string_upper   = false
 random_string_special = false
 
-# owner_username = "noothan@ganganoothangmail.onmicrosoft.com"
-owner_username = "athul@ganganoothangmail.onmicrosoft.com"
+owner_username = "noothan@ganganoothangmail.onmicrosoft.com"
+# owner_username = "athul@ganganoothangmail.onmicrosoft.com"
 
 
 azuread_application_display_name = "PowerBI Embeding Salesforce"
