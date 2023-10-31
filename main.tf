@@ -4,7 +4,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = ">=3.65.0"
+      version = ">=3.75.0"
     }
     # Here it is optional/Use when random string required
     random = {
@@ -13,7 +13,7 @@ terraform {
     }
     azuread = {
       source  = "hashicorp/azuread"
-      version = ">=2.40.0"
+      version = ">=2.43.0"
     }
   }
 }
@@ -58,7 +58,7 @@ resource "azuread_application" "power_bi_app" {
 
 # Service Principal
 resource "azuread_service_principal" "power_bi_principal" {
-  application_id               = azuread_application.power_bi_app.application_id
+  client_id                    = azuread_application.power_bi_app.client_id
   app_role_assignment_required = var.azuread_service_principal_app_role_assignment_required
   owners                       = local.app_owner
 }
@@ -71,8 +71,8 @@ resource "time_rotating" "power_bi_app_passowrd_time" {
 }
 
 resource "azuread_application_password" "power_bi_app_password" {
-  display_name          = var.azuread_application_password_display_name
-  application_object_id = azuread_application.power_bi_app.object_id
+  display_name   = var.azuread_application_password_display_name
+  application_id = azuread_application.power_bi_app.id
   rotate_when_changed = {
     rotation = time_rotating.power_bi_app_passowrd_time.id
   }
@@ -125,7 +125,7 @@ resource "azurerm_key_vault_access_policy" "power_bi_kv_self" {
 # Store Service Principal client ID and secret in Key Vault
 resource "azurerm_key_vault_secret" "power_bi_app_client_id" {
   name         = var.azurerm_key_vault_secret_power_bi_app_client_id_name
-  value        = azuread_application.power_bi_app.application_id
+  value        = azuread_application.power_bi_app.client_id
   key_vault_id = azurerm_key_vault.power_bi_kv.id
 
   depends_on = [
@@ -150,15 +150,23 @@ resource "null_resource" "configure_api_permissions" {
   #Tenant.Read.All 
   provisioner "local-exec" {
     #document https://learn.microsoft.com/en-US/cli/azure/ad/app/permission?view=azure-cli-latest#az_ad_app_permission_add 
-    command = "az ad app permission add --id ${azuread_application.power_bi_app.application_id} --api 00000009-0000-0000-c000-000000000000 --api-permissions e1fe6dd8-ba31-4d61-89e7-88639da4683d=Role"
+    command = "az ad app permission add --id ${azuread_application.power_bi_app.client_id} --api 00000009-0000-0000-c000-000000000000 --api-permissions e1fe6dd8-ba31-4d61-89e7-88639da4683d=Role"
   }
 
   #Tenant.ReadWrite.All
   provisioner "local-exec" {
-    command = "az ad app permission add --id ${azuread_application.power_bi_app.application_id} --api 00000009-0000-0000-c000-000000000000 --api-permissions 1bfefb4e-e0b5-418b-a88f-73c46d2cc8e9=Role"
+    command = "az ad app permission add --id ${azuread_application.power_bi_app.client_id} --api 00000009-0000-0000-c000-000000000000 --api-permissions 1bfefb4e-e0b5-418b-a88f-73c46d2cc8e9=Role"
   }
 
+
+  # lifecycle {
+  # prevent_destroy = true
+
+
 }
+
+
+
 #  provisioner "local-exec" {
 #   command = <<-EOT
 #     az role assignment create --assignee ${azuread_service_principal.power_bi_principal.object_id} --role Contributor --scope /subscriptions/fb88d13c-3b52-442e-b41d-47413e9aca75

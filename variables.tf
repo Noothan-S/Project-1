@@ -6,7 +6,7 @@ variable "project_name" {
 
   validation {
     condition     = length(var.project_name) < 30
-    error_message = "Name must be less than 20 characters."
+    error_message = "Name must be less than 30 characters."
   }
 }
 

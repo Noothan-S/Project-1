@@ -1,7 +1,7 @@
 # Output Values
 # Client ID
 output "client_id" {
-  value = azuread_application.power_bi_app.application_id
+  value = azuread_application.power_bi_app.client_id
 }
 
 # Tenant ID
