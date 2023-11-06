@@ -1,6 +1,6 @@
 # tfvars 
 
-my_subscription_id = "fb88d13c-3b52-442e-b41d-47413e9aca75"
+my_subscription_id = "d4940a83-4378-45be-8d4b-aa0072fa28af"
 
 project_name = "power-bi"
 
@@ -12,8 +12,7 @@ random_string_length  = "16"
 random_string_upper   = false
 random_string_special = false
 
-owner_username = "noothan@ganganoothangmail.onmicrosoft.com"
-# owner_username = "athul@ganganoothangmail.onmicrosoft.com"
+owner_username = "sanjay@sanjaydm94outlook.onmicrosoft.com"
 
 
 azuread_application_display_name = "Power BI Embeding Salesforce"

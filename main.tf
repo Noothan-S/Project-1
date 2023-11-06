@@ -33,7 +33,7 @@ terraform {
 
 # Resource Group 
 resource "azurerm_resource_group" "power_bi_rg" {
-  name     = "${local.project_name}-var.resource_group_name"
+  name     = "${local.project_name}-${var.resource_group_name}"
   location = var.resource_group_location
 }
 
@@ -54,6 +54,10 @@ data "azuread_user" "power_bi_owner" {
 resource "azuread_application" "power_bi_app" {
   display_name = var.azuread_application_display_name
   owners       = local.app_owner
+
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
 }
 
 # Service Principal
@@ -147,21 +151,35 @@ resource "azurerm_key_vault_secret" "power_bi_app_client_secret" {
 resource "null_resource" "configure_api_permissions" {
   depends_on = [azuread_application.power_bi_app]
 
+  # #Tenant.Read.All 
+  # provisioner "local-exec" {
+  #   #document https://learn.microsoft.com/en-US/cli/azure/ad/app/permission?view=azure-cli-latest#az_ad_app_permission_add 
+  #   command = "az ad app permission add --id ${azuread_application.power_bi_app.client_id} --api 00000009-0000-0000-c000-000000000000 --api-permissions e1fe6dd8-ba31-4d61-89e7-88639da4683d=Role"
+  # }
+
+  # #Tenant.ReadWrite.All
+  # provisioner "local-exec" {
+  #   command = "az ad app permission add --id ${azuread_application.power_bi_app.client_id} --api 00000009-0000-0000-c000-000000000000 --api-permissions 1bfefb4e-e0b5-418b-a88f-73c46d2cc8e9=Role"
+  # }
+
+
   #Tenant.Read.All 
   provisioner "local-exec" {
-    #document https://learn.microsoft.com/en-US/cli/azure/ad/app/permission?view=azure-cli-latest#az_ad_app_permission_add 
-    command = "az ad app permission add --id ${azuread_application.power_bi_app.client_id} --api 00000009-0000-0000-c000-000000000000 --api-permissions e1fe6dd8-ba31-4d61-89e7-88639da4683d=Role"
+    command = <<-EOT
+az ad app permission add --id ${azuread_application.power_bi_app.client_id} --api 00000009-0000-0000-c000-000000000000 --api-permissions e1fe6dd8-ba31-4d61-89e7-88639da4683d=Role
+EOT
   }
 
   #Tenant.ReadWrite.All
   provisioner "local-exec" {
-    command = "az ad app permission add --id ${azuread_application.power_bi_app.client_id} --api 00000009-0000-0000-c000-000000000000 --api-permissions 1bfefb4e-e0b5-418b-a88f-73c46d2cc8e9=Role"
+    command = <<-EOT
+az ad app permission add --id ${azuread_application.power_bi_app.client_id} --api 00000009-0000-0000-c000-000000000000 --api-permissions 1bfefb4e-e0b5-418b-a88f-73c46d2cc8e9=Role
+EOT
   }
-
 
   # lifecycle {
   # prevent_destroy = true
-
+  # }
 
 }
 
@@ -201,6 +219,14 @@ resource "null_resource" "admin_consent" {
     command = <<EOT
       az rest --method POST --uri https://graph.microsoft.com/v1.0/servicePrincipals/${azuread_service_principal.example.object_id}/grantConsent
     EOT
+  }
+}
+
+
+# next step after permission added
+resource "null_resource" "grant_api_permissions" {
+  provisioner "local-exec" {
+    command = "az ad app permission grant --id 1b19e805-4c09-4670-9dd0-f5805ce6c69b --api 00000009-0000-0000-c000-000000000000"
   }
 }
 
