@@ -4,16 +4,16 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = ">=3.75.0"
+      version = ">=3.70.0"
     }
-    # Here it is optional/Use when random string required
+    # # Here it is optional/Use when random string required
     random = {
       source  = "hashicorp/random"
       version = "3.0.0"
     }
     azuread = {
       source  = "hashicorp/azuread"
-      version = ">=2.43.0"
+      version = ">=2.40.0"
     }
   }
 }
@@ -66,7 +66,6 @@ resource "azuread_service_principal" "power_bi_principal" {
   app_role_assignment_required = var.azuread_service_principal_app_role_assignment_required
   owners                       = local.app_owner
 }
-
 
 
 # App Registration Password
@@ -176,10 +175,6 @@ EOT
 az ad app permission add --id ${azuread_application.power_bi_app.client_id} --api 00000009-0000-0000-c000-000000000000 --api-permissions 1bfefb4e-e0b5-418b-a88f-73c46d2cc8e9=Role
 EOT
   }
-
-  # lifecycle {
-  # prevent_destroy = true
-  # }
 
 }
 

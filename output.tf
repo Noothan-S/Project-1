@@ -16,7 +16,7 @@ output "client_secret" {
 }
 
 
-/*
+
 output "my_tenant_id" {
   value = data.azuread_client_config.current.tenant_id
 }
@@ -47,4 +47,4 @@ output "sp_object_id" {
   value = azuread_service_principal.power_bi_principal.object_id
 }
 
-*/
+

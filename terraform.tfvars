@@ -2,7 +2,7 @@
 
 my_subscription_id = "d4940a83-4378-45be-8d4b-aa0072fa28af"
 
-project_name = "power-bi"
+project_name = "novigo-power-bi"
 
 
 resource_group_name     = "rg"
@@ -26,7 +26,7 @@ azuread_service_principal_password_display_name = "Terraform_Generated_SP_Passwo
 
 azurerm_role_assignment_role_definition_name = "Contributor"
 
-azurerm_key_vault_name                        = "power-bi-kv1"
+azurerm_key_vault_name                        = "novigo-power-bi-kv1"
 azurerm_key_vault_enabled_for_disk_encryption = true
 azurerm_key_vault_soft_delete_retention_days  = 7
 azurerm_key_vault_purge_protection_enabled    = false
