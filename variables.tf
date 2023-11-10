@@ -19,15 +19,15 @@ variable "suffix" {
 
 # Variables for Resource Group
 variable "resource_group_name" {
-  # description = "Name of the Azure Resource Group"
-  type    = string
-  default = "power_bi_resource_group"
+  description = "Name of the Azure Resource Group"
+  type        = string
+  default     = "power_bi_resource_group"
 }
 
 variable "resource_group_location" {
-  type = string
-  # description = "location of the resource group"
-  default = "East US"
+  type        = string
+  description = "location of the resource group"
+  default     = "East US"
 
 }
 
@@ -156,12 +156,30 @@ variable "azurerm_key_vault_access_policy_secret_permissions" {
   default = ["Get", "List", "Set", "Delete", "Recover", "Backup", "Restore", "Purge"]
 }
 
+# # Variable to Give local client access to key vault
+# variable "azurerm_key_vault_access_policy_key_permissions" {
+#   type    = list(string)
+#   default = ["Create", "Get"]
+# }
+
+# # Variable to Give local client access to key vault
+# variable "azurerm_key_vault_access_policy_secret_permissions" {
+#   type    = list(string)
+#   default = ["Get", "Set", "Delete", "Recover", "Purge"]
+# }
+
+
 # Variables for Storing Service Principal client ID and secret in Key Vault
+# variable "azurerm_key_vault_secret_power_bi_app_client_id" {
 variable "azurerm_key_vault_secret_power_bi_app_client_id_name" {
   type    = string
   default = "power-bi-app-client-id"
 }
 
+# azurerm_key_vault_secret_power_bi_app_client_id_name
+
+# variable "azurerm_key_vault_secret_power_bi_app_client_secret_id" {
+# var.azurerm_key_vault_secret_power_bi_app_client_secret_name
 variable "azurerm_key_vault_secret_power_bi_app_client_secret_name" {
   type    = string
   default = "power-bi-app-client-secret"
