@@ -16,7 +16,7 @@ owner_username = "sanjay@sanjaydm94outlook.onmicrosoft.com"
 
 azuread_application_display_name = "Power BI Embeding Salesforce"
 
-azuread_service_principal_app_role_assignment_required = false
+azuread_service_principal_app_role_assignment_required = true
 
 time_rotating_rotation_days               = 7
 azuread_application_password_display_name = "Terraform_Generated_App_Password"
