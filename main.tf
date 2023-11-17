@@ -40,8 +40,8 @@ resource "azurerm_resource_group" "power_bi_rg" {
   name     = "${local.project_name}-${var.resource_group_name}"
   location = var.resource_group_location
   tags = {
-    environment = "dev"
-    project     = "novigo-power-bi"
+    environment = var.resource_group_tags_environment
+    project     = var.project_name
   }
 }
 
@@ -63,22 +63,66 @@ data "azuread_user" "power_bi_owner" {
 resource "azuread_application" "power_bi_app" {
   display_name = var.azuread_application_display_name
   owners       = local.app_owner
-  # lifecycle {
-  #   prevent_destroy = true
+
+
+  /*
+  lifecycle {
+    prevent_destroy = true
+  }
+
+  api {
+    mapped_claims_enabled          = true
+    requested_access_token_version = 1
+
+    # known_client_applications = [
+    #   azuread_application.known1.application_id,
+    #   azuread_application.known2.application_id,
+    # ] 
+
+    oauth2_permission_scope {
+      admin_consent_description  = "Allow the application to access example on behalf of the signed-in user."
+      admin_consent_display_name = "Access Power BI"
+      enabled                    = true
+      id                         = "96183846-204b-4b43-82e1-5d2222eb4b9b"
+      type                       = "User"
+      user_consent_description   = "Allow the application to access example on your behalf."
+      user_consent_display_name  = "Access Power BI"
+      value                      = "user_impersonation"
+    }
+  }
+  */
+
+  app_role {
+    allowed_member_types = var.app_role_allowed_members_types
+    description          = var.app_role_descrption
+    display_name         = var.app_role_display_name
+    enabled              = var.app_role_enabled
+    id                   = var.app_role_id
+    value                = var.app_role_value
+
+  }
+
+  # app_role {
+  #  allowed_member_types = ["User"] # var.app_role_allowed_members_types
+  #  description          = "ReadOnly roles have limited query access" # var.app_role_descrption
+  #  display_name         = "ReadOnly" # var.app_role_display_name
+  #  enabled              = true # var.app_role_enabled
+  #  id                   = "953fe5f9-6272-45f1-8393-31e726cc85d4" # var.app_role_id
+  #  value                = "User" # var.app_role_value
   # }
 
 
   required_resource_access {
-    resource_app_id = "00000009-0000-0000-c000-000000000000" # Microsoft Graph
+    resource_app_id = var.resource_app_id # Microsoft Graph
 
     resource_access {
-      id   = "e1fe6dd8-ba31-4d61-89e7-88639da4683d" # Tenant.Read.All
-      type = "Role"
+      id   = var.resource_access_id # Tenant.Read.All
+      type = var.resource_access_type
     }
 
     resource_access {
-      id   = "1bfefb4e-e0b5-418b-a88f-73c46d2cc8e9" # Tenant.ReadWrite.All
-      type = "Role"
+      id   = var.resource_access1_id # Tenant.ReadWrite.All
+      type = var.resource_access1_type
     }
   }
 }
@@ -128,6 +172,12 @@ resource "azurerm_role_assignment" "power_bi_role_assignment" {
   scope                = azurerm_resource_group.power_bi_rg.id
 }
 
+# resource "azuread_app_role_assignment" "power_bi_role_assignment" {
+#   app_role_id         = azuread_service_principal.msgraph.app_role_ids["User.Read.All"]
+#   principal_object_id = azuread_service_principal.example.object_id
+#   resource_object_id  = azuread_service_principal.msgraph.object_id
+# }
+
 
 # Key Vault
 # Create Key Vault
@@ -141,8 +191,8 @@ resource "azurerm_key_vault" "power_bi_kv" {
   purge_protection_enabled    = var.azurerm_key_vault_purge_protection_enabled
   sku_name                    = var.azurerm_key_vault_sku_name
   tags = {
-    environment = "dev"
-    project     = "novigo-power-bi"
+    environment = var.azurerm_key_vault_tags_environment
+    project     = var.project_name
   }
 }
 

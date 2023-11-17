@@ -31,6 +31,11 @@ variable "resource_group_location" {
 
 }
 
+variable "resource_group_tags_environment" {
+  type        = string
+  description = "Environment tags for the resource group"
+}
+
 
 # Variables for Random String
 variable "random_string_length" {
@@ -73,6 +78,69 @@ variable "azuread_application_owners" {
   default     = local.app_owner
 }
 */
+
+variable "app_role_allowed_members_types" {
+  type        = list(string)
+  description = "List Of allowed members"
+}
+
+variable "app_role_descrption" {
+  type        = string
+  description = "Describes which role can manage and perform the task actions"
+}
+
+variable "app_role_display_name" {
+  type        = string
+  description = "Display name for the app role"
+  default     = "Default Role"
+}
+
+variable "app_role_enabled" {
+  type    = bool
+  default = false
+}
+
+variable "app_role_id" {
+  type        = string
+  description = "unique Id for ecah App role in Azure AD"
+}
+
+variable "app_role_value" {
+  type        = string
+  description = "The value that is used for the roles claim in ID tokens and OAuth 2.0 access tokens that are authenticating an assigned service or user principal"
+}
+
+variable "resource_app_id" {
+  type        = string
+  description = "Unique Microsoft Graph ID"
+  default     = "00000009-0000-0000-c000-000000000000" #Microsoft Graph ID for PowerBI
+}
+
+variable "resource_access_id" {
+  type        = string
+  description = "Unique API Permission Id" # Tenant.Read.All
+  default     = "e1fe6dd8-ba31-4d61-89e7-88639da4683d"
+}
+
+variable "resource_access_type" {
+  type        = string
+  description = "Type of access"
+  default     = "Role" #Application Permission and Scope for Delegated permission
+}
+
+
+variable "resource_access1_id" {
+  type        = string
+  description = "Unique API Permission Id" # Tenant.ReadWrite.All
+  default     = "1bfefb4e-e0b5-418b-a88f-73c46d2cc8e9"
+}
+
+variable "resource_access1_type" {
+  type        = string
+  description = "Type of access"
+  default     = "Role" #Application Permission and Scope for Delegated permission
+}
+
 
 # Variables for Service Principal
 variable "azuread_service_principal_app_role_assignment_required" {
@@ -149,6 +217,13 @@ variable "azurerm_key_vault_sku_name" {
   type    = string
   default = "standard" # or "premium"
 }
+
+variable "azurerm_key_vault_tags_environment" {
+  type        = string
+  description = "Environment tags for the resource group"
+  default     = " "
+}
+
 
 # Variable to Give local client access to key vault
 variable "azurerm_key_vault_access_policy_secret_permissions" {
