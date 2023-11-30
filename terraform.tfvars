@@ -2,7 +2,7 @@
 
 my_subscription_id = "770d0357-2ecb-44fc-a363-ba14d49f0557"
 
-project_name = "novigo-power-bi"
+project_name = "novi-neo-dev"
 
 resource_group_name             = "rg"
 resource_group_location         = "East US"

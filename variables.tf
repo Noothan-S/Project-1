@@ -10,6 +10,8 @@ variable "project_name" {
   }
 }
 
+
+
 variable "suffix" {
   type        = string
   description = "Suffix to avoid automation errors on Azure resources that require globally unique names. Defaults to empty string."

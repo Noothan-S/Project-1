@@ -214,7 +214,7 @@ resource "azurerm_key_vault_access_policy" "power_bi_kv_policy" {
 # Store Service Principal Application Client ID and Secret in Key Vault
 resource "azurerm_key_vault_secret" "power_bi_app_client_id" {
   name         = var.azurerm_key_vault_secret_power_bi_app_client_id_name
-  value        = azuread_application.power_bi_app.client_id
+  value        = azuread_application_password.power_bi_app_password.id
   key_vault_id = azurerm_key_vault.power_bi_kv.id
 
   depends_on = [
@@ -231,6 +231,8 @@ resource "azurerm_key_vault_secret" "power_bi_app_client_secret" {
     azurerm_key_vault_access_policy.power_bi_kv_policy
   ]
 }
+
+
 
 
 /*
