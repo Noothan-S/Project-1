@@ -9,3 +9,4 @@ locals {
   project_name  = lower("${var.project_name}%{if var.suffix != ""}-${var.suffix}%{endif}")
   name_squished = replace(local.project_name, "-", "")
 }
+
