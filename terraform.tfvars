@@ -2,13 +2,14 @@
 
 my_subscription_id = "770d0357-2ecb-44fc-a363-ba14d49f0557"
 
-project_name = "novi-neo-dev"
+project_name     = "novi-neo"
+environment_name = "dev"
 
 resource_group_name             = "rg"
 resource_group_location         = "East US"
 resource_group_tags_environment = "dev"
 
-random_string_length  = "16"
+random_string_length  = "10"
 random_string_upper   = false
 random_string_special = false
 
@@ -39,7 +40,7 @@ azuread_service_principal_password_display_name = "Terraform_Generated_SP_Passwo
 
 azurerm_role_assignment_role_definition_name = "Contributor"
 
-azurerm_key_vault_name                        = "novi-noo-kv"
+azurerm_key_vault_name                        = "kv"
 azurerm_key_vault_enabled_for_disk_encryption = true
 azurerm_key_vault_soft_delete_retention_days  = 7
 azurerm_key_vault_purge_protection_enabled    = false

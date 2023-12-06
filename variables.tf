@@ -10,6 +10,16 @@ variable "project_name" {
   }
 }
 
+variable "environment_name" {
+  type        = string
+  description = "A prefix used for all resources in this project (incl. dashes). Required."
+
+  validation {
+    condition     = length(var.environment_name) < 30
+    error_message = "Name must be less than 30 characters."
+  }
+}
+
 
 
 variable "suffix" {
@@ -43,7 +53,7 @@ variable "resource_group_tags_environment" {
 variable "random_string_length" {
   description = "Random String for Unique ID"
   type        = string
-  default     = "16"
+  default     = "10"
 }
 
 variable "random_string_upper" {

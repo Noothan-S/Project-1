@@ -6,7 +6,8 @@ locals {
 }
 
 locals {
-  project_name  = lower("${var.project_name}%{if var.suffix != ""}-${var.suffix}%{endif}")
-  name_squished = replace(local.project_name, "-", "")
+  project_name     = lower("${var.project_name}%{if var.suffix != ""}-${var.suffix}%{endif}")
+  environment_name = lower("${var.environment_name}%{if var.suffix != ""}-${var.suffix}%{endif}")
+  name_squished    = replace(local.project_name, "-", "")
 }
 
