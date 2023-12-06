@@ -37,7 +37,7 @@ terraform {
 
 # Resource Group 
 resource "azurerm_resource_group" "power_bi_rg" {
-  name     = "${local.project_name}-${var.resource_group_name}"
+  name     = "${local.project_name}-${var.environment_name}-${var.resource_group_name}"
   location = var.resource_group_location
   tags = {
     environment = var.resource_group_tags_environment
@@ -65,10 +65,10 @@ resource "azuread_application" "power_bi_app" {
   owners       = local.app_owner
 
 
-  /*
-  lifecycle {
-    prevent_destroy = true
-  }
+
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
 
   api {
     mapped_claims_enabled          = true
@@ -90,7 +90,7 @@ resource "azuread_application" "power_bi_app" {
       value                      = "user_impersonation"
     }
   }
-  */
+
 
   app_role {
     allowed_member_types = var.app_role_allowed_members_types
@@ -102,15 +102,16 @@ resource "azuread_application" "power_bi_app" {
 
   }
 
-  # app_role {
-  #  allowed_member_types = ["User"] # var.app_role_allowed_members_types
-  #  description          = "ReadOnly roles have limited query access" # var.app_role_descrption
-  #  display_name         = "ReadOnly" # var.app_role_display_name
-  #  enabled              = true # var.app_role_enabled
-  #  id                   = "953fe5f9-6272-45f1-8393-31e726cc85d4" # var.app_role_id
-  #  value                = "User" # var.app_role_value
-  # }
-
+  /*
+  app_role {
+   allowed_member_types = ["User"] # var.app_role_allowed_members_types
+   description          = "ReadOnly roles have limited query access" # var.app_role_descrption
+   display_name         = "ReadOnly" # var.app_role_display_name
+   enabled              = true # var.app_role_enabled
+   id                   = "953fe5f9-6272-45f1-8393-31e726cc85d4" # var.app_role_id
+   value                = "User" # var.app_role_value
+  }
+*/
 
   required_resource_access {
     resource_app_id = var.resource_app_id # Microsoft Graph
@@ -172,17 +173,12 @@ resource "azurerm_role_assignment" "power_bi_role_assignment" {
   scope                = azurerm_resource_group.power_bi_rg.id
 }
 
-# resource "azuread_app_role_assignment" "power_bi_role_assignment" {
-#   app_role_id         = azuread_service_principal.msgraph.app_role_ids["User.Read.All"]
-#   principal_object_id = azuread_service_principal.example.object_id
-#   resource_object_id  = azuread_service_principal.msgraph.object_id
-# }
-
 
 # Key Vault
 # Create Key Vault
 resource "azurerm_key_vault" "power_bi_kv" {
-  name                        = var.azurerm_key_vault_name
+  name = "${local.project_name}-${var.environment_name}-${var.azurerm_key_vault_name}"
+  #  name                        = "${var.project_name}-${random_string.power_bi_random.result}"
   location                    = azurerm_resource_group.power_bi_rg.location
   resource_group_name         = azurerm_resource_group.power_bi_rg.name
   enabled_for_disk_encryption = var.azurerm_key_vault_enabled_for_disk_encryption
@@ -211,6 +207,7 @@ resource "azurerm_key_vault_access_policy" "power_bi_kv_policy" {
 
 }
 
+/*
 # Store Service Principal Application Client ID and Secret in Key Vault
 resource "azurerm_key_vault_secret" "power_bi_app_client_id" {
   name         = var.azurerm_key_vault_secret_power_bi_app_client_id_name
@@ -221,6 +218,7 @@ resource "azurerm_key_vault_secret" "power_bi_app_client_id" {
     azurerm_key_vault_access_policy.power_bi_kv_policy
   ]
 }
+*/
 
 resource "azurerm_key_vault_secret" "power_bi_app_client_secret" {
   name         = var.azurerm_key_vault_secret_power_bi_app_client_secret_name
