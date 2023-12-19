@@ -117,6 +117,7 @@ resource "azuread_application" "power_bi_app" {
     resource_app_id = var.resource_app_id # Microsoft Graph
 
     resource_access {
+     
       id   = var.resource_access_id # Tenant.Read.All
       type = var.resource_access_type
     }

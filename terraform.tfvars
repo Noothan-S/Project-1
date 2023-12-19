@@ -1,6 +1,6 @@
 # tfvars 
 
-my_subscription_id = "770d0357-2ecb-44fc-a363-ba14d49f0557"
+my_subscription_id = "d938c271-f26c-466b-a13d-478c6433cae4"
 
 project_name     = "novi-neo"
 environment_name = "dev"
@@ -13,7 +13,7 @@ random_string_length  = "10"
 random_string_upper   = false
 random_string_special = false
 
-owner_username = "sanjay@sanjaydm94outlook.onmicrosoft.com"
+owner_username = "noothan@noothanchnr1gmail.onmicrosoft.com"
 
 
 azuread_application_display_name = "Power BI Embeding Salesforce"
